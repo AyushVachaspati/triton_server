@@ -6,7 +6,7 @@ Add the model files in the assets folder and change the model path in model.py f
 
 ## Command to start server within Docker Container
  tritonserver --model-repository=/models --log-verbose=1
-
+ tritonserver --model-repository=/models --log-verbose=1 --cache-config local,size=1048576
 ## Curl to Query Triton Server
  curl.exe  -X POST  http://127.0.0.1:8000/v2/models/santacoder_huggingface/infer -H "Content-Type: application/json" -H "Accept: application/json" -d
  '{\"id\":\"test123\",\"inputs\":[{\"name\":\"input\", \"shape\":[1], \"datatype\": \"BYTES\", \"data\":[\"Complete this string\"]}]}'
