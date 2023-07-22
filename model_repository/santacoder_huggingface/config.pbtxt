@@ -1,6 +1,6 @@
 name: "santacoder_huggingface"
 backend: "python"
-max_batch_size: 0
+max_batch_size: 16
 input: [
   {
     name: "input",
@@ -15,3 +15,6 @@ output: [
     dims: [-1]
   }
 ]
+dynamic_batching { 
+  max_queue_delay_microseconds: 100000
+}

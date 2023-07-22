@@ -19,21 +19,34 @@ class TritonPythonModel:
 
     def execute(self, requests):
         responses = []
-        for request in requests:
-            try:
+        inputs = []
+        eos_token = self.tokenizer.convert_ids_to_tokens(self.tokenizer.eos_token_id)
+        try:
+            for request in requests:
                 in_text = pb_utils.get_input_tensor_by_name(request, "input")
-                in_text = in_text.as_numpy()[0].decode('utf-8')
-                
-                tokens = self.tokenizer(in_text, return_tensors="pt").to(self.device)
-                output = self.model.generate(**tokens,pad_token_id=self.tokenizer.eos_token_id,min_new_tokens=1,max_new_tokens=25)
-                result = self.tokenizer.decode(output[0]).rstrip(self.tokenizer.convert_ids_to_tokens(self.tokenizer.eos_token_id))
-                
-                inference_response = pb_utils.InferenceResponse(output_tensors=[
-                    pb_utils.Tensor("output",np.array([result],dtype=object))
-                ])
+                in_text = in_text.as_numpy()[0][0].decode('utf-8')
+                if(not in_text):  # Adding EOS token in place of empty string
+                    in_text = eos_token
+                inputs.append(in_text)
+            
+            tokens = self.tokenizer(inputs, padding=True, return_tensors="pt").to(self.device)
+            outputs = self.model.generate(**tokens,pad_token_id=self.tokenizer.eos_token_id,min_new_tokens=0,max_new_tokens=25)
+            results = self.tokenizer.batch_decode(outputs)
+            
+            ## Removing Response for Empty Input Strings
+            for i in range(len(results)):
+                if(inputs[i]!=eos_token):
+                    final_result = results[i].rstrip(eos_token)
+                    inference_response = pb_utils.InferenceResponse(output_tensors=[
+                        pb_utils.Tensor("output",np.array([final_result],dtype=object))
+                    ])
+                else:
+                    inference_response = pb_utils.InferenceResponse(output_tensors=[
+                        pb_utils.Tensor("output",np.array([""],dtype=object))
+                    ])
                 responses.append(inference_response)
-            except:
-                traceback.print_exc()
+        except:
+            traceback.print_exc()
         
         return responses
 
