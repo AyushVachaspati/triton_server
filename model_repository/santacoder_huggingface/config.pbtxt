@@ -1,6 +1,15 @@
 name: "santacoder_huggingface"
 backend: "python"
 max_batch_size: 16
+
+instance_group [
+    {
+      count: 1
+      kind: KIND_GPU
+      gpus: [ 0 ]
+    },
+]
+
 input: [
   {
     name: "input",
@@ -8,6 +17,7 @@ input: [
     dims: [1]
   }
 ]
+
 output: [
   {
     name: "output",
@@ -15,9 +25,11 @@ output: [
     dims: [1]
   }
 ]
+
 dynamic_batching { 
   max_queue_delay_microseconds: 100000
 }
+
 response_cache {
   enable: true
 }

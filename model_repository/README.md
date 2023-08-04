@@ -7,11 +7,30 @@ Add the model files in the assets folder and change the model path in model.py f
 ## Command to start server within Docker Container
  tritonserver --model-repository=/models --log-verbose=1
  tritonserver --model-repository=/models --log-verbose=1 --cache-config local,size=1048576
-## Curl to Query Triton Server
+
+## Curl to Query Triton Server without Nginx
  curl.exe  -X POST  http://127.0.0.1:8000/v2/models/santacoder_huggingface/infer -H "Content-Type: application/json" -H "Accept: application/json" -d
  '{\"id\":\"test123\",\"inputs\":[{\"name\":\"input\", \"shape\":[1], \"datatype\": \"BYTES\", \"data\":[\"Complete this string\"]}]}'
 
+ ### server Prometheus metrics
+ http://127.0.0.1:8002/metrics
+
  curl.exe -v 127.0.01:8000/v2/models/santacoder_huggingface
+ curl.exe -v 127.0.01:8000/v2/models/santacoder_huggingface/stats
  curl.exe -v 127.0.01:8000/v2
  curl.exe -v 127.0.01:8000/v2/health/live
  curl.exe -v 127.0.01:8000/v2/health/ready
+
+## Starting NGINX
+ C:\nginx\nginx.exe -c C:\nginx\conf\nginx.conf -p C:\nginx\
+
+## Curl to Query Triton Server with Nginx Redirecting from port 80 to port 8000
+ curl.exe  -X POST  http://127.0.0.1:80/v2/models/santacoder_huggingface/infer -H "Content-Type: application/json" -H "Accept: application/json" -d
+ '{\"id\":\"test123\",\"inputs\":[{\"name\":\"input\", \"shape\":[1], \"datatype\": \"BYTES\", \"data\":[\"Complete this string\"]}]}'
+
+ curl.exe -v 127.0.01:80/v2/models/santacoder_huggingface
+ curl.exe -v 127.0.01:80/v2/models/santacoder_huggingface/stats
+ curl.exe -v 127.0.01:80/v2
+ curl.exe -v 127.0.01:80/v2/health/live
+ curl.exe -v 127.0.01:80/v2/health/ready
+ 
