@@ -1,5 +1,6 @@
 name: "santacoder_huggingface_stream"
 backend: "python"
+max_batch_size: 16
 
 instance_group [
     {
@@ -26,7 +27,7 @@ output: [
 ]
 
 dynamic_batching { 
-  max_queue_delay_microseconds: 100000
+  max_queue_delay_microseconds: 2000000
 }
 
 model_transaction_policy {
