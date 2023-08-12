@@ -1,6 +1,5 @@
 name: "santacoder_huggingface_stream"
 backend: "python"
-max_batch_size: 16
 
 instance_group [
     {

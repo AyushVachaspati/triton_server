@@ -2,11 +2,16 @@
 Add the model files in the assets folder and change the model path in model.py file to reflect.
 
 ## Command to start Triton Docker Container
+ cd ,triton_server folder>
+ 
  docker run --gpus=all -it --shm-size=256m --rm -p8000:8000 -p8001:8001 -p8002:8002 -v ${PWD}:/workspace/ -v ${PWD}/model_repository:/models nvcr.io/nvidia/tritonserver:23.06-py3 bash
+ 
+ pip install torch transformers
 
 ## Command to start server within Docker Container
  tritonserver --model-repository=/models --log-verbose=1
  tritonserver --model-repository=/models --log-verbose=1 --cache-config local,size=1048576
+ tritonserver --model-repository=/models --log-verbose=1 --model-control-mode=explicit --load-model=santacoder_huggingface --cache-config local,size=1048576
 
 ## Curl to Query Triton Server without Nginx
  curl.exe  -X POST  http://127.0.0.1:8000/v2/models/santacoder_huggingface/infer -H "Content-Type: application/json" -H "Accept: application/json" -d

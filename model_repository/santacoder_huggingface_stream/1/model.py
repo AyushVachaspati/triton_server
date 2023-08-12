@@ -1,9 +1,11 @@
 import triton_python_backend_utils as pb_utils
-from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
+from transformers import AutoModelForCausalLM, AutoTokenizer,  TextIteratorStreamer
 import torch
 import os
 import traceback
 import numpy as np
+import time
+from threading import Thread
 
 class TritonPythonModel:
     def initialize(self, args):
@@ -19,31 +21,28 @@ class TritonPythonModel:
 
     def execute(self, requests):
         responses = []
-        response_senders = []
+        response_sender = []
         inputs = []
-        eos_token = self.tokenizer.convert_ids_to_tokens(self.tokenizer.eos_token_id)
-        try:
-            for request in requests:
-                in_text = pb_utils.get_input_tensor_by_name(request, "input")
-                in_text = in_text.as_numpy()[0][0].decode('utf-8')
-                response_senders.apppend(request.get_response_sender())
-            
-            tokens = self.tokenizer(inputs, padding=True, return_tensors="pt").to(self.device)
-            streamer = TextStreamer(self.tokenizer)
-            outputs = self.model.generate(**tokens,streamer=streamer, pad_token_id=self.tokenizer.eos_token_id,min_new_tokens=0,max_new_tokens=25)
-            print(outputs)
-            results = self.tokenizer.batch_decode(outputs)
-
-            ## Removing Response for Empty Input Strings
-            for i in range(len(results)):
+        for request in requests:
+            in_text = pb_utils.get_input_tensor_by_name(request, "input")
+            in_text = in_text.as_numpy()[0].decode('utf-8')
+            streamer = TextIteratorStreamer(self.tokenizer,skip_prompt=True)
+            inputs = self.tokenizer([in_text],return_tensors="pt").to(self.device)
+            # Run the generation in a separate thread, so that we can fetch the generated text in a non-blocking way.
+            generation_kwargs = dict(inputs, streamer=streamer, max_new_tokens=256)
+            thread = Thread(target=self.model.generate, kwargs=generation_kwargs)
+            thread.start()
+            response_sender = request.get_response_sender()
+            for new_text in streamer:
                 inference_response = pb_utils.InferenceResponse(output_tensors=[
-                    pb_utils.Tensor("output",np.array([""],dtype=object))
+                    pb_utils.Tensor("output",np.array([new_text],dtype=object))
                 ])
-                responses.append(inference_response)
-        except:
-            traceback.print_exc()
-        
-        return responses
-
+                response_sender.send(inference_response)
+            response_sender.send(pb_utils.InferenceResponse(output_tensors=[
+                    pb_utils.Tensor("output",np.array(["<|Endoftext|>"],dtype=object))
+                ]),flags=pb_utils.TRITONSERVER_RESPONSE_COMPLETE_FINAL)
+        return None
+    
+        # return responses
     def finalize(self):
         print('Closing Server')
