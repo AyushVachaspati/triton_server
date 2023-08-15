@@ -36,7 +36,7 @@ class OutputStreamer():
 class TritonPythonModel:
     def initialize(self, args):
         print("Loading Model")
-        model_path = "/models/starcoder_huggingface/assets/models/starcoder"
+        model_path = "/models/starcoder_huggingface_stream/assets/models/starcoder_stream"
         login("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")
         checkpoint = "bigcode/starcoderplus"
         self.device = "cuda"  # "cuda" for GPU usage or "cpu" for CPU usage
