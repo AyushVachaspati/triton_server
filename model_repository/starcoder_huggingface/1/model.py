@@ -9,7 +9,7 @@ import numpy as np
 class TritonPythonModel:
     def initialize(self, args):
         print("Loading Model")
-        model_path = "/models/santacoder_huggingface/assets/models/santacoder"
+        model_path = "/models/starcoder_huggingface/assets/models/starcoder"
         login("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")
         checkpoint = "bigcode/starcoderplus"
         self.device = "cuda"  # "cuda" for GPU usage or "cpu" for CPU usage
