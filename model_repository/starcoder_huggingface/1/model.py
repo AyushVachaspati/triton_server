@@ -9,7 +9,7 @@ class TritonPythonModel:
     def initialize(self, args):
         print("Loading Model")
         model_path = "/models/santacoder_huggingface/assets/models/santacoder"
-        checkpoint = "bigcode/santacoder"
+        checkpoint = "bigcode/starcoderplus"
         self.device = "cuda"  # "cuda" for GPU usage or "cpu" for CPU usage
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
