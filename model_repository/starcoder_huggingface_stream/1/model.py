@@ -63,7 +63,5 @@ class TritonPythonModel:
         
         return None
         
-        return responses
-
     def finalize(self):
         print('Closing Server')
