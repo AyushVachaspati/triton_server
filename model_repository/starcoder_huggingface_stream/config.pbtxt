@@ -1,4 +1,4 @@
-name: "starcoder_huggingface"
+name: "starcoder_huggingface_stream"
 backend: "python"
 max_batch_size: 16
 

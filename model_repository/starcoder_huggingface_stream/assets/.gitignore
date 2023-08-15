@@ -1,2 +1,2 @@
-models/starcoder/models--bigcode--starcoderplus/*
+models/starcoder_stream/models--bigcode--starcoderplus/*
 !.gitignore
