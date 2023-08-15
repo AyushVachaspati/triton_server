@@ -1,5 +1,6 @@
 import triton_python_backend_utils as pb_utils
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from huggingface_hub import login
 import torch
 import os
 import traceback
@@ -8,6 +9,7 @@ import numpy as np
 class TritonPythonModel:
     def initialize(self, args):
         print("Loading Model")
+        login("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")
         model_path = "/models/santacoder_huggingface/assets/models/santacoder"
         checkpoint = "bigcode/santacoder"
         self.device = "cuda"  # "cuda" for GPU usage or "cpu" for CPU usage
