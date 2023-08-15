@@ -27,9 +27,9 @@ output: [
 ]
 
 dynamic_batching { 
-  max_queue_delay_microseconds: 100000
+  max_queue_delay_microseconds: 2000000
 }
 
-response_cache {
-  enable: true
+model_transaction_policy {
+  decoupled: True
 }
