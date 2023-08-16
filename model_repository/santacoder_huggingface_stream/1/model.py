@@ -31,7 +31,7 @@ class OutputStreamer():
     def end(self):
         for response_sender in self.response_senders:
              response_sender.send(pb_utils.InferenceResponse(output_tensors=[
-                    pb_utils.Tensor("output",np.array(["<|Endoftext|>"],dtype=object))
+                    pb_utils.Tensor("output",np.array(["<|endoftext|>"],dtype=object))
                 ]),flags=pb_utils.TRITONSERVER_RESPONSE_COMPLETE_FINAL)
 
 
