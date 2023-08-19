@@ -87,7 +87,7 @@ class TritonPythonModel:
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
         self.tokenizer.pad_token = self.tokenizer.bos_token
-        self.model = AutoModelForCausalLM.from_pretrained(checkpoint,cache_dir=model_path,trust_remote_code=True,torch_dtype=torch.float16).to(self.device)
+        # self.model = AutoModelForCausalLM.from_pretrained(checkpoint,cache_dir=model_path,trust_remote_code=True,torch_dtype=torch.float16).to(self.device)
         print("Model Loaded")
 
     def execute(self, requests):
@@ -97,7 +97,7 @@ class TritonPythonModel:
         for request in requests:
             in_text = pb_utils.get_input_tensor_by_name(request, "input")
             in_text = in_text.as_numpy()[0][0].decode('utf-8')
-            in_text = addSystemPrompt(in_text);
+            in_text = self.addSystemPrompt(in_text);
             inputs.append(in_text)
             response_senders.append(request.get_response_sender())
 
