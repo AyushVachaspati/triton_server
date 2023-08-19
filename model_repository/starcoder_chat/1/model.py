@@ -101,7 +101,7 @@ class TritonPythonModel:
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
         self.tokenizer.pad_token = self.tokenizer.bos_token
-        # self.model = AutoModelForCausalLM.from_pretrained(checkpoint,cache_dir=model_path,trust_remote_code=True,torch_dtype=torch.float16).to(self.device)
+        self.model = AutoModelForCausalLM.from_pretrained(checkpoint,cache_dir=model_path,trust_remote_code=True,torch_dtype=torch.float16).to(self.device)
         print("Model Loaded")
 
     def execute(self, requests):
