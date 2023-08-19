@@ -74,7 +74,6 @@ class TritonPythonModel:
         14. Avoid wrapping the whole response in triple backtick.
         15. You can only give one reply for each conversation turn.<|end|>"""
         
-        print(systemPrompt+in_text)
         return systemPrompt+in_text
     
 

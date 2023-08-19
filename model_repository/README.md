@@ -45,3 +45,7 @@ pip install torch transformers;
 git clone https://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@github.com/AyushVachaspati/triton_server.git /triton_server ;
 tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=santacoder_huggingface_stream;
 tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=santacoder_huggingface --cache-config local,size=1048576;
+
+
+
+tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=starcoder_chat;
