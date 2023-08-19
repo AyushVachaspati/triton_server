@@ -48,7 +48,7 @@ class OutputStreamer():
 
 class TritonPythonModel:
 
-    def addSystemPrompt(in_text):
+    def addSystemPrompt(self,in_text):
         systemPrompt = """<|system|>You are a very helpful, polite, intelligent and expert AI programming assistant.
         When asked for your name, you responsd with "Artemus".
         Follow the user's requirement carefully and to the letter.
