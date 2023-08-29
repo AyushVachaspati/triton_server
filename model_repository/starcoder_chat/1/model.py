@@ -60,7 +60,7 @@ class TritonPythonModel:
         model_path = "/models/starcoder_chat/assets/models/starcoder_chat"
         login("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")
         checkpoint = "HuggingFaceH4/starchat-beta"
-        self.device = "cuda"  # "cuda" for GPU usage or "cpu" for CPU usage
+        self.device = "cuda:1"  # "cuda" for GPU usage or "cpu" for CPU usage
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
         self.tokenizer.pad_token = self.tokenizer.bos_token
