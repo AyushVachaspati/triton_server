@@ -55,7 +55,7 @@ class TritonPythonModel:
         login("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")
         model_path = "/models/santacoder_huggingface/assets/models/santacoder"
         checkpoint = "bigcode/santacoder"
-        self.device = "cuda"  # "cuda" for GPU usage or "cpu" for CPU usage
+        self.device = f"cuda:{args['model_instance_device_id']}"
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
         self.tokenizer.pad_token = self.tokenizer.bos_token

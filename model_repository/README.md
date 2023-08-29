@@ -48,4 +48,4 @@ tritonserver --model-repository=/triton_server/model_repository --model-control-
 
 
  ## command to load on the cloud
-tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=starcoder_chat --load-model=starcoder_huggingface  --cache-config local,size=1048576;
+tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=starcoder_chat --load-model=starcoder_huggingface  --cache-config local,size=1048576 --model-load-thread-count=1

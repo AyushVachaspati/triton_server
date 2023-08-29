@@ -52,7 +52,7 @@ class TritonPythonModel:
         model_path = "/models/starcoder_huggingface_stream/assets/models/starcoder_stream"
         login("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")
         checkpoint = "bigcode/starcoderplus"
-        self.device = "cuda"  # "cuda" for GPU usage or "cpu" for CPU usage
+        self.device = f"cuda:{args['model_instance_device_id']}"
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
         self.tokenizer.pad_token = self.tokenizer.bos_token
