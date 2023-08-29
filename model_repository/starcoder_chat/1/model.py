@@ -49,7 +49,7 @@ class OutputStreamer():
 class TritonPythonModel:
 
     def addSystemPrompt(self,in_text):
-        with open("/triton_server/model_repository/starcoder_chat/assets/prompt.txt","r") as f:
+        with open(os.path.join(self.modelRepo,"/starcoder_chat/assets/prompt.txt"),"r") as f:
             systemPrompt = f.read()
         print(systemPrompt + in_text)
         return systemPrompt + in_text
@@ -60,6 +60,7 @@ class TritonPythonModel:
         model_path = "/models/starcoder_chat/assets/models/starcoder_chat"
         login("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")
         checkpoint = "HuggingFaceH4/starchat-beta"
+        self.modelRepo = args['model_repository']
         self.device = f"cuda:{args['model_instance_device_id']}"
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
