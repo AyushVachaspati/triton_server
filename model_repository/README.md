@@ -47,5 +47,5 @@ tritonserver --model-repository=/triton_server/model_repository --model-control-
 tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=santacoder_huggingface --cache-config local,size=1048576;
 
 
-
-tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=starcoder_chat;
+ ## command to load on the cloud
+tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=starcoder_chat,starcoder_huggingface  --cache-config local,size=1048576;

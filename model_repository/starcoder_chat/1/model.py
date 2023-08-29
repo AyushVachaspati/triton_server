@@ -56,7 +56,7 @@ class TritonPythonModel:
     
 
     def initialize(self, args):
-        print("Loading Model")
+        print("Loading Model StarCoder Chat Beta")
         model_path = "/models/starcoder_chat/assets/models/starcoder_chat"
         login("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")
         checkpoint = "HuggingFaceH4/starchat-beta"

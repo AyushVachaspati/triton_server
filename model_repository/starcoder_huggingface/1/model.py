@@ -8,7 +8,7 @@ import numpy as np
 
 class TritonPythonModel:
     def initialize(self, args):
-        print("Loading Model")
+        print("Loading Model StarCoder Plus")
         model_path = "/models/starcoder_huggingface/assets/models/starcoder"
         login("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")
         checkpoint = "bigcode/starcoderplus"
