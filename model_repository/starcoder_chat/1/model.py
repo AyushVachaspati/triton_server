@@ -49,7 +49,7 @@ class OutputStreamer():
 class TritonPythonModel:
 
     def addSystemPrompt(self,in_text):
-        with open(os.path.join(self.modelRepo,"/assets/prompt.txt"),"r") as f:
+        with open(os.path.join(self.modelRepo,'assets/prompt.txt'),"r") as f:
             systemPrompt = f.read()
         print(systemPrompt + in_text)
         return systemPrompt + in_text
