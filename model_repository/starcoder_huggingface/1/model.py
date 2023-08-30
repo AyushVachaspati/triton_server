@@ -31,7 +31,7 @@ class TritonPythonModel:
             
             tokens = self.tokenizer(inputs, padding=True, return_tensors="pt").to(self.device)
             outputs = self.model.generate(**tokens,pad_token_id=self.tokenizer.eos_token_id,
-                                          min_new_tokens=0,max_new_tokens=50)
+                                          min_new_tokens=1,max_new_tokens=50)
             results = self.tokenizer.batch_decode(outputs)
             
             ## Removing Response for Empty Input Strings

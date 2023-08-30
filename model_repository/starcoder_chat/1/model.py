@@ -83,7 +83,7 @@ class TritonPythonModel:
         inputs = self.tokenizer(inputs,padding=True,return_tensors="pt").to(self.device)
         # We use a special <|end|> token with ID 49155 to denote ends of a turn ( "<|end|>" )
         self.model.generate(**inputs,streamer=streamer,
-                            min_new_tokens=0,max_new_tokens=500,
+                            min_new_tokens=0,max_new_tokens=768,
                             pad_token_id=49155,
                             eos_token_id=49155)
         
