@@ -51,7 +51,7 @@ class TritonPythonModel:
         print("Loading Model")
         model_path = "/models/starcoder_huggingface_stream/assets/models/starcoder_stream"
         login("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")
-        checkpoint = "bigcode/starcoderplus"
+        checkpoint = "bigcode/starcoder"
         self.device = f"cuda:{args['model_instance_device_id']}"
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
