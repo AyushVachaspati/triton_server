@@ -82,11 +82,17 @@ class TritonPythonModel:
         streamer = OutputStreamer(self.tokenizer,skip_prompt=True,response_senders=response_senders)
         inputs = self.tokenizer(inputs,padding=True,return_tensors="pt").to(self.device)
         # We use a special <|end|> token with ID 49155 to denote ends of a turn ( "<|end|>" )
-        self.model.generate(**inputs,streamer=streamer,
-                            min_new_tokens=0,max_new_tokens=768,
+        self.model.generate(**inputs,
+                            streamer=streamer,
+                            max_new_tokens=768,
                             pad_token_id=49155,
-                            eos_token_id=49155)
-        
+                            eos_token_id=49155,
+                            do_sample=True,
+                            top_k=50,
+                            top_p=0.9,
+                            temperature=0.2,
+                            repetition_penalty=1.2
+                        )
         return None
         
     def finalize(self):

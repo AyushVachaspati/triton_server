@@ -8,10 +8,10 @@ import numpy as np
 
 class TritonPythonModel:
     def initialize(self, args):
-        print("Loading Model StarCoder Plus")
+        print("Loading Model StarCoder")
         model_path = "/models/starcoder_huggingface/assets/models/starcoder"
         login("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")
-        checkpoint = "bigcode/starcoderplus"
+        checkpoint = "bigcode/starcoder"
         self.device = f"cuda:{args['model_instance_device_id']}"
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
@@ -30,8 +30,15 @@ class TritonPythonModel:
                 inputs.append(in_text)
             
             tokens = self.tokenizer(inputs, padding=True, return_tensors="pt").to(self.device)
-            outputs = self.model.generate(**tokens,pad_token_id=self.tokenizer.eos_token_id,
-                                          min_new_tokens=0,max_new_tokens=50)
+            outputs = self.model.generate(**tokens,
+                                        pad_token_id=self.tokenizer.eos_token_id,
+                                        max_new_tokens=50,
+                                        do_sample=True,
+                                        top_k=50,
+                                        top_p=0.9,
+                                        temperature=0.2,
+                                        repetition_penalty=1.2
+                                    )
             results = self.tokenizer.batch_decode(outputs)
             
             ## Removing Response for Empty Input Strings

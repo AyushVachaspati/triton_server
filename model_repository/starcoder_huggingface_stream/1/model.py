@@ -48,7 +48,7 @@ class OutputStreamer():
 
 class TritonPythonModel:
     def initialize(self, args):
-        print("Loading Model")
+        print("Loading Model StarCoder Stream")
         model_path = "/models/starcoder_huggingface_stream/assets/models/starcoder_stream"
         login("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")
         checkpoint = "bigcode/starcoder"
@@ -71,11 +71,17 @@ class TritonPythonModel:
 
         streamer = OutputStreamer(self.tokenizer,skip_prompt=True,response_senders=response_senders)
         inputs = self.tokenizer(inputs,padding=True,return_tensors="pt").to(self.device)
-        self.model.generate(**inputs,streamer=streamer,
-                            min_new_tokens=0,max_new_tokens=500,
+        self.model.generate(**inputs,
+                            streamer=streamer,
+                            max_new_tokens=500,
                             pad_token_id=self.tokenizer.eos_token_id,
-                            eos_token_id=self.tokenizer.eos_token_id)
-        
+                            eos_token_id=self.tokenizer.eos_token_id,
+                            do_sample=True,
+                            top_k=50,
+                            top_p=0.9,
+                            temperature=0.2,
+                            repetition_penalty=1.2
+                        )        
         return None
         
     def finalize(self):
