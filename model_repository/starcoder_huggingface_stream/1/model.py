@@ -48,10 +48,10 @@ class OutputStreamer():
 
 class TritonPythonModel:
     def initialize(self, args):
-        print("Loading Model StarCoder Stream")
+        print("Loading Model StarCoderPlus Stream")
         model_path = "/models/starcoder_huggingface_stream/assets/models/starcoder_stream"
         login("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")
-        checkpoint = "bigcode/starcoder"
+        checkpoint = "bigcode/starcoderplus"
         self.device = f"cuda:{args['model_instance_device_id']}"
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint,cache_dir=model_path)
         self.tokenizer.padding_side = "left"
@@ -76,10 +76,10 @@ class TritonPythonModel:
                             max_new_tokens=500,
                             pad_token_id=self.tokenizer.eos_token_id,
                             eos_token_id=self.tokenizer.eos_token_id,
-                            do_sample=True,
-                            top_p=0.9,
-                            temperature=0.2,
-                            repetition_penalty=1.2
+                            # do_sample=True,
+                            # top_p=0.9,
+                            # temperature=0.2,
+                            # repetition_penalty=1.2
                         )        
         return None
         

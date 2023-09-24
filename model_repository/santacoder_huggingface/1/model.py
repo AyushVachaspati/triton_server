@@ -32,12 +32,13 @@ class TritonPythonModel:
             tokens = self.tokenizer(inputs, padding=True, return_tensors="pt").to(self.device)
             outputs = self.model.generate(**tokens,
                                         pad_token_id=self.tokenizer.eos_token_id,
+                                        eos_token_id=self.tokenizer.eos_token_id,
                                         max_new_tokens=50,
-                                        do_sample=False,  # This is causing some error in SantaCoder
-                                        top_k=50,
-                                        top_p=0.9,
-                                        temperature=0.2,
-                                        repetition_penalty=1.2
+                                        # do_sample=False,  # This is causing some error in SantaCoder
+                                        # top_k=50,
+                                        # top_p=0.9,
+                                        # temperature=0.2,
+                                        # repetition_penalty=1.2
                                     )
             results = self.tokenizer.batch_decode(outputs)
             

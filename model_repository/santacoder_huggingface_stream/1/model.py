@@ -79,11 +79,11 @@ class TritonPythonModel:
                             max_new_tokens=500,
                             pad_token_id=self.tokenizer.eos_token_id,
                             eos_token_id=self.tokenizer.eos_token_id,
-                            do_sample=False, #causing some issue in SantaCoder
-                            top_k=50,
-                            top_p=0.9,
-                            temperature=0.2,
-                            repetition_penalty=1.2
+                            # do_sample=False, #causing some issue in SantaCoder
+                            # top_k=50,
+                            # top_p=0.9,
+                            # temperature=0.2,
+                            # repetition_penalty=1.2
                         )        
         
         return None
