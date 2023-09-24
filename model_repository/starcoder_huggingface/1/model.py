@@ -34,7 +34,6 @@ class TritonPythonModel:
                                         pad_token_id=self.tokenizer.eos_token_id,
                                         max_new_tokens=50,
                                         do_sample=True,
-                                        top_k=50,
                                         top_p=0.9,
                                         temperature=0.2,
                                         repetition_penalty=1.2
