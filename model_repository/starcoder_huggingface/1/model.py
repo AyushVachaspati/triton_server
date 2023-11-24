@@ -19,6 +19,11 @@ class TritonPythonModel:
         self.model = AutoModelForCausalLM.from_pretrained(checkpoint,cache_dir=model_path,trust_remote_code=True,torch_dtype=torch.float16).to(self.device)
         print("Model Loaded")
 
+    def removeEOS(result, eos_token):
+        while(result.endswith(eos_token)):
+                result = result.removesuffix(eos_token)
+        return result
+    
     def execute(self, requests):
         responses = []
         inputs = []
@@ -43,7 +48,7 @@ class TritonPythonModel:
             
             ## Removing Response for Empty Input Strings
             for i in range(len(results)):
-                final_result = results[i].rstrip(eos_token)
+                final_result= self.removeEOS(results[i],eos_token)
                 inference_response = pb_utils.InferenceResponse(output_tensors=[
                     pb_utils.Tensor("output",np.array([final_result],dtype=object))
                 ])
