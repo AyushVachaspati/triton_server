@@ -20,7 +20,7 @@ class TritonPythonModel:
         print("Model Loaded")
     
 
-    def removeEOS(result, eos_token):
+    def removeEOS(self, result, eos_token):
         while(result.endswith(eos_token)):
                 result = result.removesuffix(eos_token)
         return result
