@@ -2,7 +2,7 @@
 Add the model files in the assets folder and change the model path in model.py file to reflect.
 
 ## Command to start Triton Docker Container
- cd ,triton_server folder>
+ cd < triton_server folder >
  
  docker run --gpus=all -it --shm-size=256m --rm -p8000:8000 -p8001:8001 -p8002:8002 -v ${PWD}:/workspace/ -v ${PWD}/model_repository:/models nvcr.io/nvidia/tritonserver:23.06-py3 bash
  
@@ -48,4 +48,4 @@ tritonserver --model-repository=/triton_server/model_repository --model-control-
 
 
  ## command to load on the cloud
-tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=starcoder_chat --load-model=starcoder_huggingface  --cache-config local,size=1048576 --model-load-thread-count=1
+tritonserver --model-repository=/triton_server/model_repository --model-control-mode=explicit --load-model=starcoder_chat --load-model=starcoder_huggingface  --cache-config local,size=1048576 --model-load-thread-count=2
